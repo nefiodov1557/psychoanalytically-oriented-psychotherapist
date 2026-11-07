@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Психоаналитический психотерапевт</title>
+    <meta name="description"
+        content="Личная страница психоаналитически ориентированного психотерапевта. Запись на консультацию.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#F7F5F0',
+                        sage: '#8C9E8E',
+                        sageHover: '#7A8C7C',
+                        graphite: '#2C2C2C',
+                        softGray: '#E8E6E1'
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Дополнительные стили для плавности и кастомных элементов */
+        body {
+            background-color: #F7F5F0;
+            color: #2C2C2C;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Стилизация формы */
+        .input-field {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #8C9E8E;
+            padding: 0.75rem 0;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: #2C2C2C;
+            transition: border-color 0.3s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-bottom: 2px solid #2C2C2C;
+        }
+
+        .input-field::placeholder {
+            color: #8C9E8E;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased text-graphite bg-cream flex flex-col min-h-screen">
+
+    <!-- Навигация -->
+    <header class="fixed top-0 w-full bg-cream/90 backdrop-blur-md z-50 shadow-sm transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#about"
+                class="font-serif text-2xl font-medium tracking-wide text-graphite hover:text-sage transition-colors">
+                А.В.
+            </a>
+
+            <!-- Десктопное меню -->
+            <nav class="hidden md:flex space-x-8">
+                <a href="#about"
+                    class="text-sm uppercase tracking-wider text-graphite/80 hover:text-sage transition-colors">Обо
+                    мне</a>
+                <a href="#approach"
+                    class="text-sm uppercase tracking-wider text-graphite/80 hover:text-sage transition-colors">Подход</a>
+                <a href="#requests"
+                    class="text-sm uppercase tracking-wider text-graphite/80 hover:text-sage transition-colors">Запросы</a>
+                <a href="#conditions"
+                    class="text-sm uppercase tracking-wider text-graphite/80 hover:text-sage transition-colors">Условия</a>
+                <a href="#education"
+                    class="text-sm uppercase tracking-wider text-graphite/80 hover:text-sage transition-colors">Образование</a>
+                <a href="#contact"
+                    class="text-sm uppercase tracking-wider text-sage font-medium hover:text-graphite transition-colors">Запись</a>
+            </nav>
+
+            <!-- Мобильная кнопка меню -->
+            <button id="mobile-menu-btn" class="md:hidden flex flex-col space-y-1.5 focus:outline-none p-2">
+                <span class="block w-6 h-0.5 bg-graphite transition-transform duration-300"></span>
+                <span class="block w-6 h-0.5 bg-graphite transition-opacity duration-300"></span>
+                <span class="block w-6 h-0.5 bg-graphite transition-transform duration-300"></span>
+            </button>
+        </div>
+
+        <!-- Мобильное меню -->
+        <div id="mobile-menu"
+            class="hidden absolute top-full left-0 w-full bg-cream shadow-md border-t border-softGray md:hidden">
+            <nav class="flex flex-col px-6 py-4 space-y-4">
+                <a href="#about" class="mobile-link text-lg text-graphite">Обо мне</a>
+                <a href="#approach" class="mobile-link text-lg text-graphite">Подход</a>
+                <a href="#requests" class="mobile-link text-lg text-graphite">Запросы</a>
+                <a href="#conditions" class="mobile-link text-lg text-graphite">Условия</a>
+                <a href="#education" class="mobile-link text-lg text-graphite">Образование</a>
+                <a href="#contact" class="mobile-link text-lg text-sage font-medium">Запись</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-24">
+        <!-- 1. Hero-блок -->
+        <section id="about" class="py-16 md:py-24 max-w-6xl mx-auto px-6">
+            <div class="flex flex-col-reverse md:flex-row gap-12 items-center">
+                <div class="flex-1 space-y-8 fade-in">
+                    <div>
+                        <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-graphite leading-tight mb-4">
+                            Анастасия Василенко
+                        </h1>
+                        <p class="text-lg md:text-xl text-graphite/70 font-light">
+                            Психоаналитически ориентированный психотерапевт
+                        </p>
+                    </div>
+
+                    <blockquote
+                        class="border-l-2 border-sage pl-6 italic font-serif text-xl md:text-2xl text-graphite/90 leading-relaxed">
+                        «На риск психоанализа идут те, кто заинтересован в нанесении на карту неизвестных континентов
+                        своей души».
+                        <footer class="text-base font-sans mt-3 text-graphite/60 not-italic">— Джойс МакДугалл</footer>
+                    </blockquote>
+
+                    <div>
+                        <a href="https://t.me/vasilenko_st" target="_blank"
+                            class="inline-block bg-sage hover:bg-sageHover text-white px-8 py-4 rounded-full transition-all duration-300 shadow-md hover:shadow-lg font-medium tracking-wide">
+                            Записаться на встречу
+                        </a>
+                    </div>
+                </div>
+                <div class="flex-1 w-full fade-in">
+                    <!-- ПЛЕЙСХОЛДЕР: Фотография специалиста. Замените src на реальное фото -->
+                    <div class="aspect-[3/4] w-full max-w-md mx-auto relative rounded-2xl overflow-hidden shadow-xl">
+                        <img src="https://placehold.co/600x800/E8E6E1/8C9E8E?text=Фотография+Специалиста"
+                            alt="Фото психотерапевта" class="object-cover w-full h-full">
+                        <div class="absolute inset-0 bg-sage/10 mix-blend-multiply"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. О подходе -->
+        <section id="approach" class="py-20 bg-white/40">
+            <div class="max-w-4xl mx-auto px-6 fade-in">
+                <h2 class="font-serif text-3xl md:text-4xl text-center mb-12">Психоаналитическая терапия</h2>
+
+                <div class="space-y-6 text-lg text-graphite/80 font-light leading-relaxed">
+                    <p>
+                        Психоаналитическая терапия — это пространство бережного исследования вашей внутренней жизни, где
+                        мы вместе обращаемся к тому, что не всегда осознаётся, но заметно влияет на чувства, выборы и
+                        отношения.
+                    </p>
+                    <p>
+                        В работе я опираюсь на психоаналитический подход: это глубокое погружение в мир
+                        бессознательного, где через свободные ассоциации, сны, фантазии, оговорки и особенности
+                        отношений между нами постепенно проявляются внутренние конфликты, вытесненные переживания и
+                        давний эмоциональный опыт, который продолжает звучать в настоящем.
+                    </p>
+
+                    <div class="my-12 p-8 bg-cream rounded-2xl shadow-sm text-center">
+                        <p class="font-serif text-2xl text-graphite italic">
+                            «Психоаналитический подход даёт возможность исследовать своё бессознательное. Словно собирая
+                            картину из множества пазлов, от сеанса к сеансу продвигается психоаналитический процесс».
+                        </p>
+                    </div>
+
+                    <p>
+                        Сеанс — это разговор, в котором важны любые ваши мысли и чувства, даже если они кажутся
+                        «странными», «лишними» или «неподходящими». Я помогаю замечать повторяющиеся темы и скрытые
+                        смыслы, поддерживаю в соприкосновении с трудными чувствами и аккуратно связываю происходящее
+                        сейчас с вашими ранними историями и отношениями.
+                    </p>
+                    <p>
+                        Такая работа позволяет лучше понять «почему со мной это происходит», вернуть себе право
+                        выбирать, а не действовать автоматически из старых сценариев, освободить заблокированную энергию
+                        и выстроить более живые и устойчивые отношения с собой и другими.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Запросы -->
+        <section id="requests" class="py-20 max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="font-serif text-3xl md:text-4xl mb-4">С чем я работаю</h2>
+                <p class="text-graphite/60">Темы, с которыми мы можем бережно разобраться вместе</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Карточка 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow fade-in">
+                    <div class="w-10 h-10 rounded-full bg-sage/20 flex items-center justify-center mb-4 text-sage">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="font-medium text-lg mb-2">Трудности в отношениях</h3>
+                    <p class="text-graphite/70 text-sm leading-relaxed">Сложности в построении межличностных отношений,
+                        конфликты, одиночество.</p>
+                </div>
+                <!-- Карточка 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow fade-in"
+                    style="transition-delay: 100ms;">
+                    <div class="w-10 h-10 rounded-full bg-sage/20 flex items-center justify-center mb-4 text-sage">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="font-medium text-lg mb-2">Проблемы с родителями</h3>
+                    <p class="text-graphite/70 text-sm leading-relaxed">Сепарация, незавершённые конфликты, обиды и
+                        выстраивание границ.</p>
+                </div>
+                <!-- Карточка 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow fade-in"
+                    style="transition-delay: 200ms;">
+                    <div class="w-10 h-10 rounded-full bg-sage/20 flex items-center justify-center mb-4 text-sage">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="font-medium text-lg mb-2">Страхи и тревожность</h3>
+                    <p class="text-graphite/70 text-sm leading-relaxed">Фобии, панические атаки, хроническое
+                        беспокойство и депрессивные состояния.</p>
+                </div>
+                <!-- Карточка 4 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow fade-in"
+                    style="transition-delay: 300ms;">
+                    <div class="w-10 h-10 rounded-full bg-sage/20 flex items-center justify-center mb-4 text-sage">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="font-medium text-lg mb-2">Переживание потери</h3>
+                    <p class="text-graphite/70 text-sm leading-relaxed">Проживание горя, утрата близкого человека,
+                        развод или расставание.</p>
+                </div>
+                <!-- Карточка 5 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow fade-in"
+                    style="transition-delay: 400ms;">
+                    <div class="w-10 h-10 rounded-full bg-sage/20 flex items-center justify-center mb-4 text-sage">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                            </path>
+                        </svg>
+                    </div>
+                    <h3 class="font-medium text-lg mb-2">Низкая самооценка</h3>
+                    <p class="text-graphite/70 text-sm leading-relaxed">Неуверенность в себе, синдром самозванца,
+                        трудности в отстаивании своих интересов.</p>
+                </div>
+                <!-- Карточка 6 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow fade-in"
+                    style="transition-delay: 500ms;">
+                    <div class="w-10 h-10 rounded-full bg-sage/20 flex items-center justify-center mb-4 text-sage">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-medium text-lg mb-2">Истощение и прокрастинация</h3>
+                    <p class="text-graphite/70 text-sm leading-relaxed">Эмоциональное и физическое истощение, отсутствие
+                        жизненных сил, выгорание.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Условия работы и принципы -->
+        <section id="conditions" class="py-20 bg-[#EFECE5]">
+            <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16">
+                <!-- Условия -->
+                <div class="fade-in">
+                    <h2 class="font-serif text-3xl mb-8 border-b border-sage/30 pb-4">Условия работы</h2>
+                    <ul class="space-y-4 text-graphite/80 font-light">
+                        <li class="flex items-start">
+                            <span class="text-sage mr-3">✦</span>
+                            <span>Длительность одной сессии — <strong>50 минут</strong>.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-sage mr-3">✦</span>
+                            <span>Формат работы: <strong>очно и онлайн</strong>.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-sage mr-3">✦</span>
+                            <span>Стоимость сессии: <strong>3000 ₽</strong>.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-sage mr-3">✦</span>
+                            <span>Пропущенные сессии оплачиваются (правила отмен обсуждаются индивидуально).</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-sage mr-3">✦</span>
+                            <span>Первые 3–5 встреч — диагностические (первичные). По их итогам мы принимаем решение о
+                                долгосрочной работе.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-sage mr-3">✦</span>
+                            <span>Встречи проходят не реже 1 раза в неделю. За вами закрепляется фиксированный день,
+                                место и время.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-sage mr-3">✦</span>
+                            <span>Работаю только с совершеннолетними клиентами.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Принципы -->
+                <div class="fade-in">
+                    <h2 class="font-serif text-3xl mb-8 border-b border-sage/30 pb-4">Мои принципы</h2>
+                    <ul class="space-y-6 text-graphite/80 font-light">
+                        <li class="bg-white/60 p-5 rounded-xl">
+                            <h4 class="font-medium text-graphite mb-1">Этика и безопасность</h4>
+                            <p class="text-sm">Полная конфиденциальность, анонимность, уважение, честность и бережное
+                                отношение к клиенту.</p>
+                        </li>
+                        <li class="bg-white/60 p-5 rounded-xl">
+                            <h4 class="font-medium text-graphite mb-1">Непрерывное развитие</h4>
+                            <p class="text-sm">На регулярной основе прохожу супервизии и повышение квалификации.</p>
+                        </li>
+                        <li class="bg-white/60 p-5 rounded-xl">
+                            <h4 class="font-medium text-graphite mb-1">Личная терапия</h4>
+                            <p class="text-sm">Имею опыт собственной длительной терапии в аналитическом методе — более
+                                150 часов. Это залог того, что специалист отделяет свои процессы от процессов клиента.
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. Образование -->
+        <section id="education" class="py-20 max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="font-serif text-3xl md:text-4xl mb-4">Образование</h2>
+            </div>
+
+            <div class="space-y-8 max-w-3xl mx-auto mb-16 fade-in">
+                <div class="border-l-2 border-sage pl-6">
+                    <h3 class="font-medium text-lg">Высшее психологическое образование (Магистратура)</h3>
+                    <p class="text-graphite/60 mt-1">НИУ ВШЭ, программа «Психоанализ и психоаналитическая психотерапия»
+                    </p>
+                </div>
+                <div class="border-l-2 border-sage pl-6">
+                    <h3 class="font-medium text-lg">Высшее психологическое образование (Бакалавриат)</h3>
+                    <p class="text-graphite/60 mt-1">РЭУ им. Г. В. Плеханова, программа «Психология управления»</p>
+                </div>
+                <div class="border-l-2 border-sage pl-6">
+                    <h3 class="font-medium text-lg">Дополнительное образование</h3>
+                    <p class="text-graphite/60 mt-1 leading-relaxed">
+                        Семинары и курсы психоаналитиков — членов Международной психоаналитической ассоциации IPA (Рене
+                        Руссийон, Вассилис Капсамбелис, Дональд Кэмпбелл, Марк Солмс, Ален Жибо, Джузеппе Чивитарезе,
+                        Жаклин Шаффер, Ева Вейл, Руджеро Леви, Алан Эриль и др.).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Галерея дипломов (Плейсхолдеры) -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 fade-in">
+                <!-- ПЛЕЙСХОЛДЕР: Замените картинки на сканы дипломов -->
+                <div
+                    class="aspect-[3/4] bg-softGray rounded-lg flex items-center justify-center overflow-hidden border border-gray-200">
+                    <img src="https://placehold.co/400x533/E8E6E1/8C9E8E?text=Диплом+1" alt="Диплом"
+                        class="object-cover w-full h-full opacity-80 hover:opacity-100 transition-opacity">
+                </div>
+                <div
+                    class="aspect-[3/4] bg-softGray rounded-lg flex items-center justify-center overflow-hidden border border-gray-200">
+                    <img src="https://placehold.co/400x533/E8E6E1/8C9E8E?text=Диплом+2" alt="Диплом"
+                        class="object-cover w-full h-full opacity-80 hover:opacity-100 transition-opacity">
+                </div>
+                <div
+                    class="aspect-[3/4] bg-softGray rounded-lg flex items-center justify-center overflow-hidden border border-gray-200">
+                    <img src="https://placehold.co/400x533/E8E6E1/8C9E8E?text=Сертификат+1" alt="Сертификат"
+                        class="object-cover w-full h-full opacity-80 hover:opacity-100 transition-opacity">
+                </div>
+                <div
+                    class="aspect-[3/4] bg-softGray rounded-lg flex items-center justify-center overflow-hidden border border-gray-200">
+                    <img src="https://placehold.co/400x533/E8E6E1/8C9E8E?text=Сертификат+2" alt="Сертификат"
+                        class="object-cover w-full h-full opacity-80 hover:opacity-100 transition-opacity">
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Запись и контакты -->
+        <section id="contact" class="py-20 bg-white">
+            <div class="max-w-3xl mx-auto px-6">
+                <!-- Контакты -->
+                <div class="fade-in">
+                    <h2 class="font-serif text-3xl mb-6 text-center">Свяжитесь со мной</h2>
+                    <p class="text-graphite/70 font-light mb-10 leading-relaxed text-center">
+                        Вы можете написать мне напрямую в удобный мессенджер, и я отвечу вам в ближайшее время.
+                    </p>
+
+                    <div class="space-y-6 max-w-sm mx-auto">
+                        <!-- ПЛЕЙСХОЛДЕР: Контакты -->
+
+                        <div class="flex items-center space-x-4">
+                            <div
+                                class="w-12 h-12 bg-cream rounded-full flex items-center justify-center text-sage shrink-0">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.94z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-graphite/50">Telegram</p>
+                                <a href="https://t.me/vasilenko_st" target="_blank"
+                                    class="text-lg font-medium hover:text-sage transition-colors">@n_vasilenko_psy</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-4">
+                            <div
+                                class="w-12 h-12 bg-cream rounded-full flex items-center justify-center text-sage shrink-0">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-graphite/50">Email</p>
+                                <a href="mailto:vasilenko.st.psy@gmail.com"
+                                    class="text-lg font-medium hover:text-sage transition-colors">vasilenko.st.psy@gmail.com</a>
+                            </div>
+                        </div>
+
+                        <div class="pt-6">
+                            <a href="https://t.me/vasilenko_st" target="_blank"
+                                class="block w-full text-center bg-sage hover:bg-sageHover text-white py-4 rounded-xl transition-all duration-300 shadow-md font-medium tracking-wide">
+                                Написать в Telegram
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer class="bg-graphite text-cream/80 py-12">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <blockquote class="font-serif text-xl md:text-2xl mb-8 italic text-cream/90 leading-relaxed">
+                «Продвинуться вперёд — значит понять, что вопрос, который тебя мучил, потерял смысл».
+                <footer class="text-sm font-sans mt-3 text-cream/50 not-italic">— Антуан де Сент-Экзюпери</footer>
+            </blockquote>
+            <div class="w-16 h-px bg-sage/50 mx-auto mb-8"></div>
+            <p class="text-sm font-light">
+                &copy; <span id="current-year"></span> Анастасия Василенко. Психоаналитически ориентированный
+                психотерапевт.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Скрипты -->
+    <script>
+        // Установка текущего года в футере
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Управление мобильным меню
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        const spans = mobileMenuBtn.querySelectorAll('span');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+            // Анимация гамбургера
+            spans[0].classList.toggle('rotate-45');
+            spans[0].classList.toggle('translate-y-2');
+            spans[1].classList.toggle('opacity-0');
+            spans[2].classList.toggle('-rotate-45');
+            spans[2].classList.toggle('-translate-y-2');
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // Анимация появления элементов при скролле (Fade-in)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Анимируем только один раз
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+
+</html>
