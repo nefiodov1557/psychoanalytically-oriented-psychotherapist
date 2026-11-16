@@ -1,0 +1,23 @@
+/* Просмотр оригиналов дипломов без перехода со страницы. */
+.diploma-viewer {
+    position: fixed; inset: 0; margin: auto;
+    width: min(96vw, 1440px); max-width: 96vw;
+    max-height: calc(100vh - 2rem); max-height: calc(100dvh - 2rem);
+    padding: 3.5rem 1rem 1rem; overflow: auto;
+    border: 1px solid var(--border); border-radius: 1rem;
+    background: rgb(var(--page)); color: rgb(var(--text));
+}
+.diploma-viewer::backdrop { background: rgb(28 33 31 / .8); }
+.diploma-viewer-image {
+    display: block; width: auto; height: auto; max-width: 100%;
+    max-height: calc(100vh - 7rem); max-height: calc(100dvh - 7rem);
+    object-fit: contain; margin: 0 auto;
+}
+.diploma-viewer-close {
+    position: absolute; top: .5rem; right: .5rem;
+    display: grid; place-items: center; width: 44px; height: 44px;
+    border-radius: 999px; background: rgb(var(--accent) / .15);
+    color: rgb(var(--text)); cursor: pointer;
+}
+.diploma-viewer-close:hover { background: rgb(var(--accent) / .25); }
+[data-diploma-viewer] { cursor: zoom-in; }

@@ -1,0 +1,142 @@
+/* Семантические цвета; изображения не перекрашиваются. */
+:root {
+    color-scheme: light;
+    --page: 247 245 240;
+    --card: 255 255 255;
+    --secondary: 239 236 229;
+    --soft: 232 230 225;
+    --text: 44 44 44;
+    --accent: 140 158 142;
+    --accent-hover: 122 140 124;
+    --accent-text: #596F5B;
+    --muted: #656862;
+    --border: #D3D8CF;
+    --button: #617763;
+    --button-hover: #526754;
+    --button-text: #FFFFFF;
+    --shadow: 0 0 0;
+}
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --page: 28 33 31;
+    --card: 41 47 43;
+    --secondary: 36 42 38;
+    --soft: 41 47 43;
+    --text: 241 239 233;
+    --accent: 164 184 165;
+    --accent-hover: 185 202 186;
+    --accent-text: #A4B8A5;
+    --muted: #B8C0B8;
+    --border: #414A43;
+    --button: #A4B8A5;
+    --button-hover: #B9CABA;
+    --button-text: #1C211F;
+    --shadow: 10 15 12;
+}
+html body { background-color: rgb(var(--page)); color: rgb(var(--text)); }
+:root .bg-cream { background-color: rgb(var(--page)); }
+:root [class~="bg-cream/90"] { background-color: rgb(var(--page) / .9); }
+:root .bg-white { background-color: rgb(var(--card)); }
+:root [class~="bg-white/40"] { background-color: rgb(var(--card) / .4); }
+:root [class~="bg-white/60"] { background-color: rgb(var(--card) / .6); }
+:root [class~="bg-[#EFECE5]"] { background-color: rgb(var(--secondary)); }
+:root .bg-softGray { background-color: rgb(var(--soft)); }
+:root .bg-graphite { background-color: rgb(var(--text)); }
+:root .text-graphite { color: rgb(var(--text)); }
+:root [class~="text-graphite/90"] { color: rgb(var(--text) / .9); }
+:root [class~="text-graphite/80"] { color: rgb(var(--text) / .8); }
+:root [class~="text-graphite/70"] { color: rgb(var(--text) / .7); }
+:root [class~="text-graphite/60"] { color: rgb(var(--text) / .68); }
+:root [class~="text-graphite/50"] { color: var(--muted); }
+:root .text-sage { color: var(--accent-text); }
+:root [class~="bg-sage/20"] { background-color: rgb(var(--accent) / .2); }
+:root [class~="bg-sage/50"] { background-color: rgb(var(--accent) / .5); }
+:root .border-sage { border-color: rgb(var(--accent)); }
+:root [class~="border-sage/30"] { border-color: rgb(var(--accent) / .3); }
+:root .border-softGray { border-color: rgb(var(--soft)); }
+:root .border-gray-200 { border-color: var(--border); }
+:root .bg-sage { background-color: var(--button); color: var(--button-text); }
+:root [class~="hover:bg-sageHover"]:hover { background-color: var(--button-hover); }
+:root [class~="hover:text-sage"]:hover { color: var(--accent-text); }
+:root [class~="hover:text-graphite"]:hover { color: rgb(var(--text)); }
+/* Подвал сохраняет собственную палитру во всех режимах оформления. */
+html body > .site-footer {
+    color-scheme: light;
+    --footer-background: #2C2C2C;
+    --footer-quote: #F7F5F0;
+    --footer-author: #B8C0B8;
+    --footer-copyright: #D0D0C9;
+    --footer-divider: #8C9E8E;
+    background-color: var(--footer-background);
+    color: var(--footer-copyright);
+}
+html body > .site-footer blockquote { color: var(--footer-quote); }
+html body > .site-footer blockquote footer { color: var(--footer-author); }
+html body > .site-footer :is(p, p span) { color: var(--footer-copyright); }
+html body > .site-footer [class~="bg-sage/50"] { background-color: var(--footer-divider); }
+:root[data-theme="dark"] [class~="bg-white/40"] { background-color: rgb(var(--secondary)); }
+:root[data-theme="dark"] [class~="bg-white/60"] { background-color: rgb(var(--card)); }
+:root[data-theme="dark"] [class*="text-graphite/"] { color: var(--muted); }
+:root[data-theme="dark"] [class~="text-graphite/90"] { color: rgb(var(--text)); }
+:root[data-theme="dark"] [class~="border-sage/30"],
+:root[data-theme="dark"] .border-softGray { border-color: var(--border); }
+:root .shadow-sm { --tw-shadow: var(--tw-shadow-colored); --tw-shadow-color: rgb(var(--shadow) / .05); }
+:root .shadow-md, :root [class~="hover:shadow-md"]:hover { --tw-shadow-color: rgb(var(--shadow) / .1); }
+:root .shadow-lg, :root [class~="hover:shadow-lg"]:hover { --tw-shadow-color: rgb(var(--shadow) / .1); }
+:root .input-field { color: rgb(var(--text)); border-color: rgb(var(--accent)); }
+:root .input-field:focus { border-color: rgb(var(--text)); }
+:root .input-field::placeholder { color: var(--muted); opacity: 1; }
+
+/* Равные боковые колонки удерживают навигацию по центру контейнера. */
+.site-header .header-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: .75rem; padding: .875rem 1rem;
+}
+.header-brand { flex-shrink: 0; white-space: nowrap; font-size: 1.5rem; line-height: 1.2; }
+.brand-full, .site-header .header-nav { display: none; }
+.header-actions { display: flex; align-items: center; justify-content: flex-end; gap: .5rem; flex-shrink: 0; }
+.site-header .mobile-menu-toggle { width: 2.75rem; height: 2.75rem; align-items: center; justify-content: center; flex-shrink: 0; border-radius: .75rem; }
+.theme-control {
+    display: flex; align-items: center; gap: .125rem; padding: .25rem;
+    border: 1px solid var(--border); border-radius: 999px;
+    background: rgb(var(--page)); flex-shrink: 0;
+}
+.theme-option {
+    display: grid; place-items: center; width: 2.75rem; height: 2.75rem;
+    padding: 0; border-radius: 999px; color: var(--muted);
+    background: transparent; cursor: pointer;
+}
+.theme-option svg { display: block; width: 1.25rem; height: 1.25rem; }
+.theme-option:hover { background: rgb(var(--accent) / .12); color: rgb(var(--text)); }
+.theme-option[aria-pressed="true"] { background: rgb(var(--accent) / .22); color: var(--accent-text); }
+html body .theme-option:focus-visible { outline-offset: 1px; }
+@media (min-width: 640px) { .site-header .header-inner { padding-inline: 1.5rem; } }
+@media (min-width: 1280px) {
+    .site-header .header-inner { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 1rem; }
+    .header-brand { justify-self: start; font-size: 1.375rem; }
+    .brand-short { display: none; }
+    .brand-full { display: inline; }
+    .site-header .header-nav { display: flex; align-items: center; justify-content: center; gap: 1.25rem; white-space: nowrap; }
+    .header-nav a { padding-block: .75rem; }
+    .header-actions { justify-self: end; }
+    .site-header .mobile-menu-toggle, .site-header .mobile-navigation { display: none; }
+}
+html body :is(a, button, input):focus-visible {
+    outline: 2px solid var(--accent-text); outline-offset: 4px;
+}
+/* Цвета переходят отдельно от существующего появления блоков. */
+html.theme-ready body, html.theme-ready body *:not(img):not(svg):not(path) {
+    transition-property: color, background-color, border-color, box-shadow;
+    transition-duration: 200ms;
+    transition-delay: 0s;
+}
+html.theme-ready .fade-in {
+    transition-property: opacity, transform, color, background-color, border-color, box-shadow;
+    transition-duration: 800ms, 800ms, 200ms, 200ms, 200ms, 200ms;
+}
+html.theme-ready #mobile-menu-btn span { transition: transform 300ms, opacity 300ms, background-color 200ms; }
+@media (prefers-reduced-motion: reduce) {
+    html.scroll-smooth { scroll-behavior: auto; }
+    html body *, html.theme-ready body * { transition: none !important; animation: none !important; }
+    .fade-in { opacity: 1; transform: none; }
+}

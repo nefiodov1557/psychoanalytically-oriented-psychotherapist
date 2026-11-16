@@ -8,6 +8,46 @@
     <meta name="description"
         content="Личная страница психоаналитически ориентированного психотерапевта. Запись на консультацию.">
 
+    <script>
+        // Применяем тему до загрузки стилей и первой отрисовки.
+        (() => {
+            const system = window.matchMedia('(prefers-color-scheme: dark)');
+            let preference = 'system';
+            try {
+                const saved = localStorage.getItem('theme-preference');
+                if (['system', 'light', 'dark'].includes(saved)) preference = saved;
+            } catch (_) { /* Хранилище может быть недоступно. */ }
+            const apply = () => {
+                const resolved = preference === 'system' ? (system.matches ? 'dark' : 'light') : preference;
+                document.documentElement.dataset.theme = resolved;
+                document.documentElement.style.colorScheme = resolved;
+            };
+            window.siteTheme = {
+                get preference() { return preference; },
+                setPreference(value, persist = true) {
+                    preference = ['system', 'light', 'dark'].includes(value) ? value : 'system';
+                    if (persist) {
+                        try { localStorage.setItem('theme-preference', preference); } catch (_) {}
+                    }
+                    apply();
+                    window.dispatchEvent(new Event('themechange'));
+                }
+            };
+            system.addEventListener('change', () => {
+                if (preference === 'system') {
+                    apply();
+                    window.dispatchEvent(new Event('themechange'));
+                }
+            });
+            window.addEventListener('storage', event => {
+                if (event.key === 'theme-preference' || event.key === null) {
+                    window.siteTheme.setPreference(event.newValue, false);
+                }
+            });
+            apply();
+        })();
+    </script>
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -78,20 +118,24 @@
             opacity: 0.7;
         }
     </style>
+    <link rel="stylesheet" href="assets/theme.css">
+    <script src="assets/theme.js" defer></script>
+    <link rel="stylesheet" href="assets/diplomas.css">
+    <script src="assets/diplomas.js" defer></script>
 </head>
 
 <body class="font-sans antialiased text-graphite bg-cream flex flex-col min-h-screen">
 
     <!-- Навигация -->
-    <header class="fixed top-0 w-full bg-cream/90 backdrop-blur-md z-50 shadow-sm transition-all duration-300">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#about"
-                class="font-serif text-2xl font-medium tracking-wide text-graphite hover:text-sage transition-colors">
-                А.В.
+    <header class="site-header fixed top-0 w-full bg-cream/90 backdrop-blur-md z-50 shadow-sm transition-all duration-300">
+        <div class="header-inner max-w-6xl mx-auto">
+            <a href="#about" class="header-brand font-serif font-medium text-graphite hover:text-sage transition-colors" aria-label="Анастасия Василенко — на главную">
+                <span class="brand-full">Анастасия Василенко</span>
+                <span class="brand-short">Анастасия</span>
             </a>
 
             <!-- Десктопное меню -->
-            <nav class="hidden md:flex space-x-8">
+            <nav class="header-nav" aria-label="Основная навигация">
                 <a href="#about"
                     class="text-sm uppercase tracking-wider text-graphite/80 hover:text-sage transition-colors">Обо
                     мне</a>
@@ -107,17 +151,29 @@
                     class="text-sm uppercase tracking-wider text-sage font-medium hover:text-graphite transition-colors">Запись</a>
             </nav>
 
-            <!-- Мобильная кнопка меню -->
-            <button id="mobile-menu-btn" class="md:hidden flex flex-col space-y-1.5 focus:outline-none p-2">
-                <span class="block w-6 h-0.5 bg-graphite transition-transform duration-300"></span>
-                <span class="block w-6 h-0.5 bg-graphite transition-opacity duration-300"></span>
-                <span class="block w-6 h-0.5 bg-graphite transition-transform duration-300"></span>
-            </button>
+            <div class="header-actions">
+                <div id="theme-control" class="theme-control" role="group" aria-label="Тема оформления">
+                    <button type="button" class="theme-option" data-theme-option="system" aria-label="Системная тема" aria-pressed="false" title="Системная тема">
+                        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/></svg>
+                    </button>
+                    <button type="button" class="theme-option" data-theme-option="light" aria-label="Светлая тема" aria-pressed="false" title="Светлая тема">
+                        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></svg>
+                    </button>
+                    <button type="button" class="theme-option" data-theme-option="dark" aria-label="Тёмная тема" aria-pressed="false" title="Тёмная тема">
+                        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.9 13.1A9 9 0 0 1 10.9 3.1a9 9 0 1 0 10 10Z"/></svg>
+                    </button>
+                </div>
+                <button id="mobile-menu-btn" type="button" aria-label="Открыть меню навигации" aria-expanded="false" aria-controls="mobile-menu" class="mobile-menu-toggle flex flex-col space-y-1.5 p-2">
+                    <span class="block w-6 h-0.5 bg-graphite transition-transform duration-300"></span>
+                    <span class="block w-6 h-0.5 bg-graphite transition-opacity duration-300"></span>
+                    <span class="block w-6 h-0.5 bg-graphite transition-transform duration-300"></span>
+                </button>
+            </div>
         </div>
 
         <!-- Мобильное меню -->
         <div id="mobile-menu"
-            class="hidden absolute top-full left-0 w-full bg-cream shadow-md border-t border-softGray md:hidden">
+            class="mobile-navigation hidden absolute top-full left-0 w-full bg-cream shadow-md border-t border-softGray">
             <nav class="flex flex-col px-6 py-4 space-y-4">
                 <a href="#about" class="mobile-link text-lg text-graphite">Обо мне</a>
                 <a href="#approach" class="mobile-link text-lg text-graphite">Подход</a>
@@ -157,12 +213,15 @@
                         </a>
                     </div>
                 </div>
-                <div class="flex-1 w-full fade-in">
-                    <!-- ПЛЕЙСХОЛДЕР: Фотография специалиста. Замените src на реальное фото -->
-                    <div class="aspect-[3/4] w-full max-w-md mx-auto relative rounded-2xl overflow-hidden shadow-xl">
-                        <img src="https://placehold.co/600x800/E8E6E1/8C9E8E?text=Фотография+Специалиста"
-                            alt="Фото психотерапевта" class="object-cover w-full h-full">
-                        <div class="absolute inset-0 bg-sage/10 mix-blend-multiply"></div>
+                <div class="flex-1 min-w-0 w-full fade-in">
+                    <div class="aspect-[3/4] w-full max-w-md mx-auto rounded-2xl overflow-hidden shadow-lg">
+                        <picture class="block w-full h-full">
+                            <source srcset="assets/images/anastasia-vasilenko.webp" type="image/webp">
+                            <img src="assets/images/anastasia-vasilenko.png"
+                                alt="Анастасия Василенко — психоаналитически ориентированный психотерапевт"
+                                width="1086" height="1448" decoding="async" fetchpriority="high"
+                                class="block object-cover object-top w-full h-full">
+                        </picture>
                     </div>
                 </div>
             </div>
@@ -175,36 +234,40 @@
 
                 <div class="space-y-6 text-lg text-graphite/80 font-light leading-relaxed">
                     <p>
-                        Психоаналитическая терапия — это пространство бережного исследования вашей внутренней жизни, где
-                        мы вместе обращаемся к тому, что не всегда осознаётся, но заметно влияет на чувства, выборы и
-                        отношения.
+                        Психоаналитическая терапия — это пространство бережного исследования внутреннего мира, где мы вместе обращаемся к тому,
+                        что не всегда осознаётся, но заметно влияет на Ваши чувства, выборы и взаимоотношения.
                     </p>
                     <p>
-                        В работе я опираюсь на психоаналитический подход: это глубокое погружение в мир
-                        бессознательного, где через свободные ассоциации, сны, фантазии, оговорки и особенности
-                        отношений между нами постепенно проявляются внутренние конфликты, вытесненные переживания и
-                        давний эмоциональный опыт, который продолжает звучать в настоящем.
+                        Работа в психоаналитическом подходе предполагает погружение в мир бессознательного, где через свободные ассоциации, сны,
+                        фантазии, оговорки и особенности отношений между нами постепенно проявляются внутренние конфликты, вытесненные
+                        переживания и давний эмоциональный опыт, который продолжает звучать в настоящем.
                     </p>
 
                     <div class="my-12 p-8 bg-cream rounded-2xl shadow-sm text-center">
-                        <p class="font-serif text-2xl text-graphite italic">
-                            «Психоаналитический подход даёт возможность исследовать своё бессознательное. Словно собирая
-                            картину из множества пазлов, от сеанса к сеансу продвигается психоаналитический процесс».
-                        </p>
+                
+                        <blockquote class="border-l-2 border-sage pl-6 italic font-serif text-xl md:text-2xl text-graphite/90 leading-relaxed">
+                            «Психоанализ - это не поиск истины, а создание нового смысла в диалоге между аналитиком и пациентом».
+                            <footer class="text-base font-sans mt-3 text-graphite/60 not-italic">— Сезар Ботелла</footer>
+                        </blockquote>
                     </div>
 
                     <p>
-                        Сеанс — это разговор, в котором важны любые ваши мысли и чувства, даже если они кажутся
-                        «странными», «лишними» или «неподходящими». Я помогаю замечать повторяющиеся темы и скрытые
-                        смыслы, поддерживаю в соприкосновении с трудными чувствами и аккуратно связываю происходящее
-                        сейчас с вашими ранними историями и отношениями.
+                        Терапевтическая сессия — это разговор, в котором важны любые ваши мысли и чувства, даже если они кажутся «странными»,
+                        «лишними» или «неподходящими». Я помогаю замечать повторяющиеся темы и скрытые смыслы, поддерживаю в соприкосновении с
+                        трудными чувствами и аккуратно связываю происходящее сейчас с вашими ранними историями и отношениями.
                     </p>
                     <p>
-                        Такая работа позволяет лучше понять «почему со мной это происходит», вернуть себе право
-                        выбирать, а не действовать автоматически из старых сценариев, освободить заблокированную энергию
-                        и выстроить более живые и устойчивые отношения с собой и другими.
+                        Такая работа позволяет лучше понять «почему со мной это происходит», вернуть себе право выбирать, а не действовать
+                        автоматически из старых сценариев, освободить запертую энергию и выстроить более живые и устойчивые отношения с собой и
+                        другими.
                     </p>
                 </div>
+
+                <blockquote
+                    class="mt-12 border-l-2 border-sage pl-6 italic font-serif text-xl md:text-2xl text-graphite/90 leading-relaxed">
+                    «История — это не просто прошлое, а живая сила, которая продолжает влиять на наше настоящее».
+                    <footer class="text-base font-sans mt-3 text-graphite/60 not-italic">— Пьер Видаль-Наке</footer>
+                </blockquote>
             </div>
         </section>
 
@@ -305,9 +368,9 @@
         <section id="conditions" class="py-20 bg-[#EFECE5]">
             <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16">
                 <!-- Условия -->
-                <div class="fade-in">
+                <div class="fade-in flex flex-col">
                     <h2 class="font-serif text-3xl mb-8 border-b border-sage/30 pb-4">Условия работы</h2>
-                    <ul class="space-y-4 text-graphite/80 font-light">
+                    <ul class="flex flex-col gap-4 md:flex-1 md:justify-between text-graphite/80 font-light">
                         <li class="flex items-start">
                             <span class="text-sage mr-3">✦</span>
                             <span>Длительность одной сессии — <strong>50 минут</strong>.</span>
@@ -318,7 +381,7 @@
                         </li>
                         <li class="flex items-start">
                             <span class="text-sage mr-3">✦</span>
-                            <span>Стоимость сессии: <strong>3000 ₽</strong>.</span>
+                            <span>Стоимость сессии: <strong>3500₽ (есть места по льготным ценам) </strong>.</span>
                         </li>
                         <li class="flex items-start">
                             <span class="text-sage mr-3">✦</span>
@@ -326,7 +389,7 @@
                         </li>
                         <li class="flex items-start">
                             <span class="text-sage mr-3">✦</span>
-                            <span>Первые 3–5 встреч — диагностические (первичные). По их итогам мы принимаем решение о
+                            <span>Первые 3–5 встреч — диагностические. По их итогам мы принимаем решение о
                                 долгосрочной работе.</span>
                         </li>
                         <li class="flex items-start">
@@ -342,9 +405,9 @@
                 </div>
 
                 <!-- Принципы -->
-                <div class="fade-in">
+                <div class="fade-in flex flex-col">
                     <h2 class="font-serif text-3xl mb-8 border-b border-sage/30 pb-4">Мои принципы</h2>
-                    <ul class="space-y-6 text-graphite/80 font-light">
+                    <ul class="grid auto-rows-fr gap-6 md:flex-1 text-graphite/80 font-light">
                         <li class="bg-white/60 p-5 rounded-xl">
                             <h4 class="font-medium text-graphite mb-1">Этика и безопасность</h4>
                             <p class="text-sm">Полная конфиденциальность, анонимность, уважение, честность и бережное
@@ -391,29 +454,40 @@
                 </div>
             </div>
 
-            <!-- Галерея дипломов (Плейсхолдеры) -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 fade-in">
-                <!-- ПЛЕЙСХОЛДЕР: Замените картинки на сканы дипломов -->
-                <div
-                    class="aspect-[3/4] bg-softGray rounded-lg flex items-center justify-center overflow-hidden border border-gray-200">
-                    <img src="https://placehold.co/400x533/E8E6E1/8C9E8E?text=Диплом+1" alt="Диплом"
-                        class="object-cover w-full h-full opacity-80 hover:opacity-100 transition-opacity">
-                </div>
-                <div
-                    class="aspect-[3/4] bg-softGray rounded-lg flex items-center justify-center overflow-hidden border border-gray-200">
-                    <img src="https://placehold.co/400x533/E8E6E1/8C9E8E?text=Диплом+2" alt="Диплом"
-                        class="object-cover w-full h-full opacity-80 hover:opacity-100 transition-opacity">
-                </div>
-                <div
-                    class="aspect-[3/4] bg-softGray rounded-lg flex items-center justify-center overflow-hidden border border-gray-200">
-                    <img src="https://placehold.co/400x533/E8E6E1/8C9E8E?text=Сертификат+1" alt="Сертификат"
-                        class="object-cover w-full h-full opacity-80 hover:opacity-100 transition-opacity">
-                </div>
-                <div
-                    class="aspect-[3/4] bg-softGray rounded-lg flex items-center justify-center overflow-hidden border border-gray-200">
-                    <img src="https://placehold.co/400x533/E8E6E1/8C9E8E?text=Сертификат+2" alt="Сертификат"
-                        class="object-cover w-full h-full opacity-80 hover:opacity-100 transition-opacity">
-                </div>
+            <!-- Дипломы: оригиналы открываются по нажатию -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 fade-in">
+                <figure class="min-w-0">
+                    <a href="assets/images/diploma-master.jpg" data-diploma-viewer aria-haspopup="dialog" aria-controls="diploma-viewer"
+                        class="block aspect-[7/5] bg-softGray rounded-lg overflow-hidden border border-gray-200"
+                        aria-label="Открыть диплом магистра в полном размере">
+                        <picture class="block w-full h-full">
+                            <source srcset="assets/images/diploma-master.webp" type="image/webp">
+                            <img src="assets/images/diploma-master.jpg" alt="Диплом магистра Анастасии Василенко по направлению «Психология», НИУ ВШЭ, 2025 год"
+                                width="1600" height="1133" loading="lazy" decoding="async"
+                                class="block object-contain w-full h-full">
+                        </picture>
+                    </a>
+                    <figcaption class="mt-4">
+                        <h3 class="font-medium text-graphite">Диплом магистра с отличием</h3>
+                        <p class="mt-1 text-sm text-graphite/60">НИУ ВШЭ · 2025</p>
+                    </figcaption>
+                </figure>
+                <figure class="min-w-0">
+                    <a href="assets/images/diploma-bachelor.jpg" data-diploma-viewer aria-haspopup="dialog" aria-controls="diploma-viewer"
+                        class="block aspect-[7/5] bg-softGray rounded-lg overflow-hidden border border-gray-200"
+                        aria-label="Открыть диплом бакалавра в полном размере">
+                        <picture class="block w-full h-full">
+                            <source srcset="assets/images/diploma-bachelor.webp" type="image/webp">
+                            <img src="assets/images/diploma-bachelor.jpg" alt="Диплом бакалавра Анастасии Василенко по направлению «Психология», РЭУ им. Г. В. Плеханова, 2023 год"
+                                width="1600" height="1121" loading="lazy" decoding="async"
+                                class="block object-contain w-full h-full">
+                        </picture>
+                    </a>
+                    <figcaption class="mt-4">
+                        <h3 class="font-medium text-graphite">Диплом бакалавра с отличием</h3>
+                        <p class="mt-1 text-sm text-graphite/60">РЭУ им. Г. В. Плеханова · 2023</p>
+                    </figcaption>
+                </figure>
             </div>
         </section>
 
@@ -422,7 +496,7 @@
             <div class="max-w-3xl mx-auto px-6">
                 <!-- Контакты -->
                 <div class="fade-in">
-                    <h2 class="font-serif text-3xl mb-6 text-center">Свяжитесь со мной</h2>
+                    <h2 class="font-serif text-3xl mb-6 text-center">Связь со мной</h2>
                     <p class="text-graphite/70 font-light mb-10 leading-relaxed text-center">
                         Вы можете написать мне напрямую в удобный мессенджер, и я отвечу вам в ближайшее время.
                     </p>
@@ -440,7 +514,7 @@
                             </div>
                             <div>
                                 <p class="text-sm text-graphite/50">Telegram</p>
-                                <a href="https://t.me/vasilenko_st" target="_blank"
+                                <a href="https://t.me/n_vasilenko_psy" target="_blank"
                                     class="text-lg font-medium hover:text-sage transition-colors">@n_vasilenko_psy</a>
                             </div>
                         </div>
@@ -462,7 +536,7 @@
                         </div>
 
                         <div class="pt-6">
-                            <a href="https://t.me/vasilenko_st" target="_blank"
+                            <a href="https://t.me/n_vasilenko_psy" target="_blank"
                                 class="block w-full text-center bg-sage hover:bg-sageHover text-white py-4 rounded-xl transition-all duration-300 shadow-md font-medium tracking-wide">
                                 Написать в Telegram
                             </a>
@@ -474,19 +548,24 @@
     </main>
 
     <!-- Футер -->
-    <footer class="bg-graphite text-cream/80 py-12">
+    <footer class="site-footer py-12">
         <div class="max-w-4xl mx-auto px-6 text-center">
-            <blockquote class="font-serif text-xl md:text-2xl mb-8 italic text-cream/90 leading-relaxed">
-                «Продвинуться вперёд — значит понять, что вопрос, который тебя мучил, потерял смысл».
-                <footer class="text-sm font-sans mt-3 text-cream/50 not-italic">— Антуан де Сент-Экзюпери</footer>
-            </blockquote>
-            <div class="w-16 h-px bg-sage/50 mx-auto mb-8"></div>
+            
             <p class="text-sm font-light">
                 &copy; <span id="current-year"></span> Анастасия Василенко. Психоаналитически ориентированный
                 психотерапевт.
             </p>
         </div>
     </footer>
+
+    <dialog id="diploma-viewer" class="diploma-viewer" aria-label="Просмотр диплома">
+        <button type="button" class="diploma-viewer-close" aria-label="Закрыть диплом" autofocus>
+            <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                <path d="m6 6 12 12M18 6 6 18"/>
+            </svg>
+        </button>
+        <img class="diploma-viewer-image" alt="" decoding="async">
+    </dialog>
 
     <!-- Скрипты -->
     <script>
@@ -501,6 +580,9 @@
 
         function toggleMenu() {
             mobileMenu.classList.toggle('hidden');
+            const expanded = !mobileMenu.classList.contains('hidden');
+            mobileMenuBtn.setAttribute('aria-expanded', String(expanded));
+            mobileMenuBtn.setAttribute('aria-label', expanded ? 'Закрыть меню навигации' : 'Открыть меню навигации');
             // Анимация гамбургера
             spans[0].classList.toggle('rotate-45');
             spans[0].classList.toggle('translate-y-2');
